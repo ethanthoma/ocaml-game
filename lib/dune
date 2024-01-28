@@ -1,0 +1,3 @@
+(library
+ (name game)
+ (libraries raylib))
