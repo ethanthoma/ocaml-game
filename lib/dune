@@ -1,3 +1,4 @@
 (library
- (name game)
- (libraries raylib))
+ (name my_game)
+ (libraries raylib)
+ (modules_without_implementation types))

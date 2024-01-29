@@ -1,3 +1,5 @@
+open My_game
+
 let _ = 
-    Game.setup
+    Base.setup
 
