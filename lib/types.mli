@@ -8,6 +8,14 @@ type player = {
     y: int;
 }
 
+type enemy = {
+    x: float;
+    y: float;
+    speed: float;
+}
+
+type config = { player: player; enemies: enemy list; }
+
 type state = 
-    | Menu of menu
-    | Game of player
+    | Menu of config
+    | Game of config

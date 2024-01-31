@@ -3,9 +3,9 @@ open Types
 
 let update current_state = 
     match current_state with
-    | Menu meta ->
+    | Menu { player=player; enemies=enemies; } ->
         if is_key_pressed Key.Enter then
-            Game { x = (meta.width / 2); y = (meta.height / 2) }
+            Game { player; enemies; }
         else
             current_state 
     | _ -> current_state
@@ -13,12 +13,12 @@ let update current_state =
 
 let render current_state =
     match current_state with
-    | Menu meta ->
+    | Menu _ ->
         clear_background Color.raywhite;
         draw_text 
             "hit ENTER to start, move with WASD" 
-            (meta.width / 4)
-            (meta.height / 2) 
+            200
+            200
             20
             Color.red
     | _ -> ()

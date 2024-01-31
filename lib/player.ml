@@ -1,7 +1,7 @@
 open Raylib
 open Types
 
-let update player = 
+let update (player: player) = 
     let x, y = (player.x, player.y) in
     let x =
         match (is_key_down Key.A, is_key_down Key.D) with
@@ -16,7 +16,7 @@ let update player =
     in { x = x; y = y }
 ;;
 
-let render player = 
+let render (player: player) = 
     let x, y = (player.x, player.y) in
     clear_background Color.black;
     draw_rectangle x y 20 20 Color.yellow
