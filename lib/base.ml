@@ -5,7 +5,12 @@ let width = 800
 let height = 450
 
 let init_config = 
-    let player = { x = width / 2; y = height / 2; } in
+    let open Float in
+    let x = of_int (width / 2) in
+    let y = of_int (height / 2) in
+    let vel = 1. in
+    let target = Vector2.create x y in
+    let player = { x; y; vel; target; } in
     Raylib.set_random_seed (Unsigned.UInt.of_int 42069);
     let enemies = List.init 10 (fun _ -> Enemy.make_random width height) in
     { player; enemies; }

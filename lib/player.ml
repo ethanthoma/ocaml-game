@@ -1,23 +1,29 @@
+open Float
 open Raylib
 open Types
 
 let update (player: player) = 
+    let vel = player.vel in
     let x, y = (player.x, player.y) in
-    let x =
-        match (is_key_down Key.A, is_key_down Key.D) with
-        | true, false -> x - 10;
-        | false, true ->  x + 10;
-        | _, _ -> x 
-    in let y =
-        match (is_key_down Key.W, is_key_down Key.S) with
-        | true, false -> y - 10;
-        | false, true ->  y + 10;
-        | _, _ -> y 
-    in { x = x; y = y }
+    let target =
+        match is_mouse_button_pressed MouseButton.Right with
+        | true -> get_mouse_position ()
+        | false -> player.target
+    in 
+    let dx, dy = (
+        sub (Vector2.x target) x,
+        sub (Vector2.y target) y
+    ) in
+    let t = atan2 dy dx in
+    let x, y = (
+        cos t |> mul vel |> add x,
+        sin t |> mul vel |> add y
+    ) in
+    { x; y; vel; target; }
 ;;
 
 let render (player: player) = 
     let x, y = (player.x, player.y) in
     clear_background Color.black;
-    draw_rectangle x y 20 20 Color.yellow
+    draw_rectangle (to_int x) (to_int y) 20 20 Color.yellow
 ;;

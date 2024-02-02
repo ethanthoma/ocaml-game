@@ -16,7 +16,7 @@ let render current_state =
     | Menu _ ->
         clear_background Color.raywhite;
         draw_text 
-            "hit ENTER to start, move with WASD" 
+            "hit ENTER to start, move with right clicks" 
             200
             200
             20

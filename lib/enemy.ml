@@ -8,7 +8,7 @@ let make_random width height =
 ;;
 
 let update (player: player) enemy =
-    let x, y = ( of_int player.x, of_int player.y ) in
+    let x, y = ( player.x, player.y ) in
     let x, y = (
         sub x enemy.x,
         sub y enemy.y

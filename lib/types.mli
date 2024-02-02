@@ -4,8 +4,10 @@ type menu = {
 }
 
 type player = {
-    x: int;
-    y: int;
+    x: float;
+    y: float;
+    target: Raylib.Vector2.t;
+    vel: float;
 }
 
 type enemy = {
