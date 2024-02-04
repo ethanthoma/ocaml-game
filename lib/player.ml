@@ -2,28 +2,26 @@ open Float
 open Raylib
 open Types
 
-let update (player: player) = 
-    let vel = player.vel in
-    let x, y = (player.x, player.y) in
+let update p camera player = 
     let target =
         match is_mouse_button_pressed MouseButton.Right with
-        | true -> get_mouse_position ()
+        | true -> 
+            Mouse.get_mouse_col p camera
         | false -> player.target
     in 
-    let dx, dy = (
-        sub (Vector2.x target) x,
-        sub (Vector2.y target) y
-    ) in
-    let t = atan2 dy dx in
-    let x, y = (
-        cos t |> mul vel |> add x,
-        sin t |> mul vel |> add y
-    ) in
-    { x; y; vel; target; }
-;;
-
-let render (player: player) = 
-    let x, y = (player.x, player.y) in
-    clear_background Color.black;
-    draw_rectangle (to_int x) (to_int y) 20 20 Color.yellow
+    let player = { player with target } in
+    let arrived =
+        let x = sub (Vector3.x player.position) (Vector3.x target) in
+        let z = sub (Vector3.z player.position) (Vector3.z target) in 
+        max ( abs x ) ( abs z ) <= player.vel
+    in
+    match arrived with
+    | true -> 
+        let position = Vector3.create 
+            ( Vector3.x target )
+            ( Vector3.y player.position )
+            ( Vector3.z target)
+        in
+        { player with position }
+    | false -> Entity.move_entity_to_target player
 ;;

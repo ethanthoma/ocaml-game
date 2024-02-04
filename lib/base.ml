@@ -4,16 +4,42 @@ open Types
 let width = 800
 let height = 450
 
-let init_config = 
-    let open Float in
-    let x = of_int (width / 2) in
-    let y = of_int (height / 2) in
-    let vel = 1. in
-    let target = Vector2.create x y in
-    let player = { x; y; vel; target; } in
+let world = (
+    Vector3.create ~-.200. 0. ~-.200.,
+    Vector3.create 200. 0. ~-.200.,
+    Vector3.create 200. 0. 200.,
+    Vector3.create ~-.200. 0. 200.
+)
+
+let camera =
+    let position = Vector3.create 200. 200. 200. in
+    let target = Vector3.create 0. 0. 0. in
+    let up = Vector3.create 0. 1. 0. in
+    let fovy = 45. in
+    let proj = CameraProjection.Perspective in
+    Camera.create position target up fovy proj
+;;
+
+let player = 
+    let position = Vector3.create 10. 10. 10. in
+    let size = Vector3.create 20. 20. 20. in
+    let target = position in
+    let vel = 3. in
+    let color = Color.yellow in
+    { position; size; target; vel; color; }
+;;
+
+let enemies = 
     Raylib.set_random_seed (Unsigned.UInt.of_int 42069);
-    let enemies = List.init 10 (fun _ -> Enemy.make_random width height) in
-    { player; enemies; }
+    List.init 10 (fun _ -> Enemy.make_random world)
+;;
+
+let state = {
+    camera;
+    world;
+    player;
+    enemies;
+}
 
 let setup () =
     init_window 
@@ -23,17 +49,14 @@ let setup () =
     set_target_fps 60
 ;;
 
-let update current_state = 
-    match current_state with
-    | Menu _ -> Menu.update current_state
-    | Game _ -> Game.update current_state
+let update state = 
+    Game.update state
 ;;
 
-let render current_state =
+let render state =
     begin_drawing ();
-    match current_state with
-    | Menu _ -> Menu.render current_state; end_drawing ()
-    | Game _ -> Game.render current_state; end_drawing ()
+    Game.render state;
+    end_drawing ()
 ;;
 
 let rec loop current_state () =
@@ -45,4 +68,4 @@ let rec loop current_state () =
         loop new_state ()
 ;;
 
-let () = setup () |> loop (Menu init_config)
+let () = setup () |> loop state

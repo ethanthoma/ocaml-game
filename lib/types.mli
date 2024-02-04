@@ -1,23 +1,16 @@
-type menu = {
-    width: int;
-    height: int;
-}
+open Raylib
 
-type player = {
-    x: float;
-    y: float;
-    target: Raylib.Vector2.t;
+type entity = {
+    position: Vector3.t;
+    size: Vector3.t;
+    target: Vector3.t;
     vel: float;
+    color: Color.t;
 }
 
-type enemy = {
-    x: float;
-    y: float;
-    speed: float;
+type state = {
+    camera: Raylib.Camera.t;
+    world: Vector3.t * Vector3.t * Vector3.t * Vector3.t;
+    player: entity; 
+    enemies: entity list; 
 }
-
-type config = { player: player; enemies: enemy list; }
-
-type state = 
-    | Menu of config
-    | Game of config
