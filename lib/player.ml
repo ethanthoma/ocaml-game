@@ -6,7 +6,7 @@ let update p camera player =
     let target =
         match is_mouse_button_pressed MouseButton.Right with
         | true -> 
-            Mouse.get_mouse_col p camera
+            Mouse.get_mouse_pos_in_world p camera
         | false -> player.target
     in 
     let player = { player with target } in
