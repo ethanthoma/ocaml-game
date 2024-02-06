@@ -12,7 +12,7 @@ let world = (
 )
 
 let camera =
-    let position = Vector3.create 200. 200. 200. in
+    let position = Vector3.create 200. 200. 0. in
     let target = Vector3.create 0. 0. 0. in
     let up = Vector3.create 0. 1. 0. in
     let fovy = 45. in

@@ -7,10 +7,18 @@ let get_mouse_pos_in_world (p1,p2,p3,p4) camera =
     RayCollision.point col
 ;;
 
+let add_y_offset pos offset = 
+    Vector3.create
+        ( Vector3.x pos )
+        ( Float.add offset ( Vector3.y pos ))
+        ( Vector3.z pos )
+;;
+
 let render camera world = 
     draw_circle_3d 
-        ( get_mouse_pos_in_world world camera ) 
+        ( add_y_offset ( get_mouse_pos_in_world world camera ) 1. )
         5. 
         ( Vector3.create 1. 0. 0. ) 
         90. 
-        Color.red;
+        Color.green
+;;

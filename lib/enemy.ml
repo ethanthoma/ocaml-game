@@ -31,8 +31,8 @@ let make_random world =
         Vector3.create x 5. z in
     let size = Vector3.create 10. 10. 10. in
     let target = position in
-    let vel = 1. in
-    let color = Color.green in
+    let vel = div (of_int (Raylib.get_random_value 1 18)) 9. in
+    let color = Color.red in
     { position; size; target; vel; color; }
 ;;
 
