@@ -1,11 +1,28 @@
 open Raylib
 open Types
 
-let get_mouse_pos_in_world (p1,p2,p3,p4) camera = 
+let init =
+    let zero = Vector3.zero () in
+    let ray = Ray.create zero zero in
+    let world_collision = get_ray_collision_quad ray zero zero zero zero in
+    let id = Option.None in
+    { ray; world_collision; id }
+;;
+
+let update { world=(p1,p2,p3,p4); camera; mouse; enemies; _ } = 
     let pos = get_mouse_position () in
     let ray = get_mouse_ray pos camera in
-    let col = get_ray_collision_quad ray p1 p2 p3 p4 in
-    RayCollision.point col
+    let world_collision = get_ray_collision_quad ray p1 p2 p3 p4 in
+    let id = 
+        match Raylib.is_mouse_button_pressed MouseButton.Left with
+        | true -> 
+            (
+                match Enemy.enemy_clicked mouse enemies with
+                | Some enemy -> Some enemy.id
+                | None -> None
+            )
+        | false -> mouse.id
+    in { ray; world_collision; id }
 ;;
 
 let add_y_offset pos offset = 
@@ -15,29 +32,7 @@ let add_y_offset pos offset =
         ( Vector3.z pos )
 ;;
 
-let init world camera =
-    let p1,p2,p3,p4 = world in
-    let pos = get_mouse_position () in
-    let ray = get_mouse_ray pos camera in
-    let world_collision = get_ray_collision_quad ray p1 p2 p3 p4 in
-    let entity = Option.None in
-    { ray; world_collision; entity }
-;;
-
-let update { world; camera; mouse; enemies; _ } = 
-    let p1,p2,p3,p4 = world in
-    let pos = get_mouse_position () in
-    let ray = get_mouse_ray pos camera in
-    let world_collision = get_ray_collision_quad ray p1 p2 p3 p4 in
-    let entity = 
-        match Raylib.is_mouse_button_pressed MouseButton.Left with
-        | true -> 
-            Enemy.enemy_clicked mouse enemies 
-        | false -> mouse.entity
-    in { ray; world_collision; entity }
-;;
-
-let render mouse = 
+let render mouse enemies = 
     (
         match RayCollision.hit mouse.world_collision with
         | true ->
@@ -50,8 +45,13 @@ let render mouse =
         | false -> ()
     );
     (
-        match mouse.entity with
-        | Some entity -> Enemy.outline entity
+        match mouse.id with
+        | Some id -> 
+            let enemy = 
+                List.find 
+                    ( fun (enemy: entity) -> id == enemy.id) 
+                    enemies 
+            in Enemy.outline enemy
         | None -> ()
     );
 ;;

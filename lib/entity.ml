@@ -30,7 +30,6 @@ let move_entity_to_target entity =
 ;;
 
 let render entity =
-    let open Raylib in
     draw_cube_v
         entity.position
         entity.size

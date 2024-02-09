@@ -12,7 +12,7 @@ let render state =
     clear_background Color.black;
     begin_mode_3d state.camera;
         World.render state.world;
-        Mouse.render state.mouse; 
+        Mouse.render state.mouse state.enemies; 
         List.iter Entity.render state.enemies;
         Entity.render state.player;
     end_mode_3d ()

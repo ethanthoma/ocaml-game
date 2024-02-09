@@ -21,20 +21,21 @@ let camera =
     Camera.create position target up fovy proj
 ;;
 
-let mouse = Mouse.init world camera
+let mouse = Mouse.init
 
 let player = 
+    let id = 69 in
     let position = Vector3.create 10. 10. 10. in
     let size = Vector3.create 20. 20. 20. in
     let target = position in
     let vel = 3. in
     let color = Color.yellow in
-    { position; size; target; vel; color; }
+    { id; position; size; target; vel; color; }
 ;;
 
 let enemies = 
     Raylib.set_random_seed (Unsigned.UInt.of_int 42069);
-    List.init 10 (fun _ -> Enemy.make_random world)
+    List.init 10 (fun id -> Enemy.make_random world id)
 ;;
 
 let state = {

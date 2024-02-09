@@ -58,7 +58,7 @@ let find_min_max (p1, p2, p3, p4) =
     (min_x, max_x, min_z, max_z)
 ;;
 
-let make_random world =
+let make_random world id =
     let min_x, max_x, min_z, max_z = find_min_max world in
     let position = 
         let x = of_int (Raylib.get_random_value (to_int min_x) (to_int max_x)) in
@@ -67,7 +67,7 @@ let make_random world =
     let size = Vector3.create size size size in
     let target = position in
     let vel = div (of_int (Raylib.get_random_value 1 18)) 9. in
-    { position; size; target; vel; color; }
+    { id; position; size; target; vel; color; }
 ;;
 
 let update player enemy =

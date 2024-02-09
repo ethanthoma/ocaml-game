@@ -1,6 +1,7 @@
 open Raylib
 
 type entity = {
+    id: int;
     position: Vector3.t;
     size: Vector3.t;
     target: Vector3.t;
@@ -11,7 +12,7 @@ type entity = {
 type mouse = {
     ray: Ray.t;
     world_collision: RayCollision.t;
-    entity: entity Option.t;
+    id: int Option.t;
 }
 
 type state = {
