@@ -2,6 +2,41 @@ open Float
 open Types
 open Raylib
 
+let size = 10.
+let color = Color.red
+
+let box enemy = 
+    let half_size = div size 2. in
+    let x,y,z = (
+        ( Vector3.x enemy.position ),
+        ( Vector3.y enemy.position ),
+        ( Vector3.z enemy.position )
+    ) in BoundingBox.create 
+        ( Vector3.create ( sub x half_size ) ( sub y half_size ) ( sub z half_size ))
+        ( Vector3.create ( add x half_size ) ( add y half_size ) ( add z half_size ))
+;;
+
+let enemy_clicked mouse enemies = 
+    let ray = mouse.ray in
+    List.find_opt
+        ( 
+            fun enemy -> 
+            let box = box enemy in
+            let collision = get_ray_collision_box ray box in
+            RayCollision.hit collision
+        )
+        enemies
+;;
+
+let outline enemy = 
+    draw_cube_wires
+        enemy.position
+        (add size 1.)
+        (add size 1.)
+        (add size 1.)
+        Color.green
+;;
+
 let find_min_max (p1, p2, p3, p4) =
     let points = [p1; p2; p3; p4] in
     let initial = (
@@ -28,11 +63,10 @@ let make_random world =
     let position = 
         let x = of_int (Raylib.get_random_value (to_int min_x) (to_int max_x)) in
         let z = of_int (Raylib.get_random_value (to_int min_z) (to_int max_z)) in
-        Vector3.create x 5. z in
-    let size = Vector3.create 10. 10. 10. in
+        Vector3.create x ( div size 2. ) z in
+    let size = Vector3.create size size size in
     let target = position in
     let vel = div (of_int (Raylib.get_random_value 1 18)) 9. in
-    let color = Color.red in
     { position; size; target; vel; color; }
 ;;
 

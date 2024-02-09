@@ -3,6 +3,7 @@ open Types
 
 let width = 800
 let height = 450
+let title = "GAME"
 
 let world = (
     Vector3.create ~-.200. 0. ~-.200.,
@@ -20,6 +21,8 @@ let camera =
     Camera.create position target up fovy proj
 ;;
 
+let mouse = Mouse.init world camera
+
 let player = 
     let position = Vector3.create 10. 10. 10. in
     let size = Vector3.create 20. 20. 20. in
@@ -36,16 +39,14 @@ let enemies =
 
 let state = {
     camera;
+    mouse;
     world;
     player;
     enemies;
 }
 
 let setup () =
-    init_window 
-        width 
-        height 
-        "raylib [core] example - basic window";
+    init_window width height title;
     set_target_fps 60
 ;;
 

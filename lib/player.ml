@@ -2,11 +2,13 @@ open Float
 open Raylib
 open Types
 
-let update p camera player = 
+let update { mouse; player; _ } = 
     let target =
-        match is_mouse_button_pressed MouseButton.Right with
-        | true -> 
-            Mouse.get_mouse_pos_in_world p camera
+        match
+        is_mouse_button_pressed MouseButton.Right &&
+        RayCollision.hit mouse.world_collision
+        with
+        | true -> RayCollision.point mouse.world_collision
         | false -> player.target
     in 
     let player = { player with target } in
