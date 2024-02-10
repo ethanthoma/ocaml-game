@@ -10,12 +10,12 @@ let offset =
     let z_offset = mul rho @@ cos angle in
     Vector3.create 0. y_offset z_offset
 
-let init =
-    let target = Vector3.create 0. 0. 0. in
+let init target =
+    let position = Vector3.add target offset in
     let up = Vector3.create 0. 1. 0. in
     let fovy = 45. in
     let proj = CameraProjection.Perspective in
-    Camera.create offset target up fovy proj
+    Camera.create position target up fovy proj
 ;;
 
 let update { camera; player; _ } =

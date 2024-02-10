@@ -6,11 +6,11 @@ let title = "GAME"
 
 let world = World.init
 
-let camera = Camera.init
-
 let mouse = Mouse.init
 
 let player = Player.init
+
+let camera = Camera.init player.position
 
 let enemies = 
     Raylib.set_random_seed (Unsigned.UInt.of_int 42069);
