@@ -1,37 +1,16 @@
-open Raylib
 open Types
 
 let width = 800
 let height = 450
 let title = "GAME"
 
-let world = (
-    Vector3.create ~-.200. 0. ~-.200.,
-    Vector3.create 200. 0. ~-.200.,
-    Vector3.create 200. 0. 200.,
-    Vector3.create ~-.200. 0. 200.
-)
+let world = World.init
 
-let camera =
-    let position = Vector3.create 200. 200. 0. in
-    let target = Vector3.create 0. 0. 0. in
-    let up = Vector3.create 0. 1. 0. in
-    let fovy = 45. in
-    let proj = CameraProjection.Perspective in
-    Camera.create position target up fovy proj
-;;
+let camera = Camera.init
 
 let mouse = Mouse.init
 
-let player = 
-    let id = 69 in
-    let position = Vector3.create 10. 10. 10. in
-    let size = Vector3.create 20. 20. 20. in
-    let target = position in
-    let vel = 3. in
-    let color = Color.yellow in
-    { id; position; size; target; vel; color; }
-;;
+let player = Player.init
 
 let enemies = 
     Raylib.set_random_seed (Unsigned.UInt.of_int 42069);
@@ -45,6 +24,8 @@ let state = {
     player;
     enemies;
 }
+
+open Raylib
 
 let setup () =
     init_window width height title;

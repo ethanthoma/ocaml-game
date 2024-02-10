@@ -9,22 +9,21 @@ let move_entity_to_target entity =
         let z = sub (Vector3.z entity.position) (Vector3.z target) in 
         max ( abs x ) ( abs z ) <= entity.vel
     in let position = 
-        match arrived with
-        | true ->
+        if arrived then
             Vector3.create 
                 ( Vector3.x target )
                 ( Vector3.y entity.position )
                 ( Vector3.z target)
-        | false -> 
+        else
             let dx, dz = (
                 sub (Vector3.x target) (Vector3.x entity.position),
                 sub (Vector3.z target) (Vector3.z entity.position)
             ) in
             let t = atan2 dz dx in
             Vector3.create 
-                (cos t |> mul entity.vel |> add (Vector3.x entity.position))
+                (cos t |> mul entity.vel |> add @@ Vector3.x entity.position)
                 (Vector3.y entity.position)
-                (sin t |> mul entity.vel |> add (Vector3.z entity.position))
+                (sin t |> mul entity.vel |> add @@ Vector3.z entity.position)
     in
     { entity with position; }
 ;;

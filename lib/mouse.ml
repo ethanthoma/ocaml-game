@@ -14,14 +14,12 @@ let update { world=(p1,p2,p3,p4); camera; mouse; enemies; _ } =
     let ray = get_mouse_ray pos camera in
     let world_collision = get_ray_collision_quad ray p1 p2 p3 p4 in
     let id = 
-        match Raylib.is_mouse_button_pressed MouseButton.Left with
-        | true -> 
-            (
-                match Enemy.enemy_clicked mouse enemies with
-                | Some enemy -> Some enemy.id
-                | None -> None
-            )
-        | false -> mouse.id
+        if Raylib.is_mouse_button_pressed MouseButton.Left then
+            match Enemy.enemy_clicked mouse enemies with
+            | Some enemy -> Some enemy.id
+            | None -> None
+        else 
+            mouse.id
     in { ray; world_collision; id }
 ;;
 
@@ -34,15 +32,15 @@ let add_y_offset pos offset =
 
 let render mouse enemies = 
     (
-        match RayCollision.hit mouse.world_collision with
-        | true ->
+        if RayCollision.hit mouse.world_collision then
             draw_circle_3d 
                 ( add_y_offset ( RayCollision.point mouse.world_collision ) 1. )
                 5. 
                 ( Vector3.create 1. 0. 0. ) 
                 90. 
                 Color.green
-        | false -> ()
+        else
+            ()
     );
     (
         match mouse.id with

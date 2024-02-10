@@ -61,12 +61,12 @@ let find_min_max (p1, p2, p3, p4) =
 let make_random world id =
     let min_x, max_x, min_z, max_z = find_min_max world in
     let position = 
-        let x = of_int (Raylib.get_random_value (to_int min_x) (to_int max_x)) in
-        let z = of_int (Raylib.get_random_value (to_int min_z) (to_int max_z)) in
+        let x = of_int (get_random_value (to_int min_x) (to_int max_x)) in
+        let z = of_int (get_random_value (to_int min_z) (to_int max_z)) in
         Vector3.create x ( div size 2. ) z in
     let size = Vector3.create size size size in
     let target = position in
-    let vel = div (of_int (Raylib.get_random_value 1 18)) 9. in
+    let vel = div (of_int (get_random_value 1 18)) 9. in
     { id; position; size; target; vel; color; }
 ;;
 
