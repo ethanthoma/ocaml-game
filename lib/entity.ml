@@ -32,5 +32,9 @@ let render entity =
     draw_cube_v
         entity.position
         entity.size
-        entity.color
+        entity.color;
+    draw_cube_wires_v
+        entity.position
+        entity.size
+        Color.black
 ;;

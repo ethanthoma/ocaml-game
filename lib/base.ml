@@ -14,7 +14,7 @@ let camera = Camera.init player.position
 
 let enemies = 
     Raylib.set_random_seed (Unsigned.UInt.of_int 42069);
-    List.init 10 (fun id -> Enemy.make_random world id)
+    List.init 1000 (fun id -> Enemy.make_random world id)
 ;;
 
 let state = {
@@ -39,6 +39,7 @@ let update state =
 let render state =
     begin_drawing ();
     Game.render state;
+    draw_fps 10 10;
     end_drawing ()
 ;;
 
